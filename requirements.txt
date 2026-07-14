@@ -1,0 +1,5 @@
+langchain-core
+langchain-openai
+langgraph
+python-dotenv
+html2text

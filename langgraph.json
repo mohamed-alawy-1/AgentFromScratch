@@ -1,0 +1,8 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "agent": "./src/langgraph101.py:app",
+    "agent_2": "./src/agent.py:email_assistant"
+  },
+  "env": ".env"
+}
