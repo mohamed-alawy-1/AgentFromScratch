@@ -41,10 +41,11 @@ def check_calendar_availability(day: str) -> str:
     return f"Available times on {day}: 9:00 AM, 2:00 PM, 4:00 PM"
 
 @tool
-def Question(content: str) -> str:
-    """Ask the user any follow-up questions."""
-    return f"Question asked: {content}"
+class Question(BaseModel):
+    """Question to ask user."""
+    content: str
 
+@tool
 class Done(BaseModel):
     """E-mail has been sent."""
     done: bool
@@ -229,8 +230,9 @@ def triage_interrupt_handler(state: State, store: BaseStore) -> Command[Literal[
         "description": email_markdown,
     }
 
-    # Agent Inbox responds with a list
-    response = interrupt(request)[0]
+    # Send to Agent Inbox and wait for response
+    response_raw = interrupt([request])
+    response = response_raw[0] if isinstance(response_raw, list) else response_raw
 
     # If user provides feedback, go to response agent and use feedback to respond to email
     if response["type"] == "response":
@@ -349,7 +351,8 @@ def interrupt_handler(state: State, store: BaseStore) -> Command[Literal["llm_ca
         }
 
         # Send to Agent Inbox and wait for response
-        response = interrupt(request)
+        response_raw = interrupt([request])
+        response = response_raw[0] if isinstance(response_raw, list) else response_raw
 
         # Handle the responses
         if response["type"] == "accept":

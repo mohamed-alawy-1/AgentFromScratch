@@ -203,7 +203,8 @@ def triage_interrupt_handler(state: State) -> Command[Literal["response_agent", 
     }
 
     # Agent Inbox responds with a list
-    response = interrupt(request)[0]
+    response_raw = interrupt(request)
+    response = response_raw[0] if isinstance(response_raw, list) else response_raw
 
     # If user provides feedback, go to response agent and use feedback to respond to email
     if response["type"] == "response":
@@ -313,7 +314,8 @@ def interrupt_handler(state: State) -> Command[Literal["llm_call", "__end__"]]:
         }
 
         # Send to Agent Inbox and wait for response
-        response = interrupt(request)
+        response_raw = interrupt(request)
+        response = response_raw[0] if isinstance(response_raw, list) else response_raw
 
         # Handle the responses
         if response["type"] == "accept":
