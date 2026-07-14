@@ -2,7 +2,8 @@
   "dependencies": ["."],
   "graphs": {
     "agent": "./src/langgraph101.py:app",
-    "agent_2": "./src/agent.py:email_assistant"
+    "agent_2": "./src/agent.py:email_assistant",
+    "agent_hitl": "./src/agent_hitl.py:email_assistant"
   },
   "env": ".env"
 }
